@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>vlovem · 山川湖海</title>
 <meta name="description" content="一个懒懒的小角落:喜欢山川湖海,遨游四海。">
+<!--
+  背景照片均来自 Wikimedia Commons,CC BY-SA 4.0(免费商用,须署名):
+  - 海:"Rubjerg Knude Fyr, Hjorring, Denmark, 1807072231, ako" by Ansgar Koreng
+        https://commons.wikimedia.org/wiki/File:Rubjerg_Knude_Fyr,_Hj%C3%B8rring,_Denmark,_1807072231,_ako.jpg
+  - 山:"Nebbia su colli e monti - Foreste Casentinesi - Appennino Tosco Emiliano - GT 01 - 2024 01 28" by Terragio67
+        https://commons.wikimedia.org/wiki/File:Nebbia_su_colli_e_monti_-_Foreste_Casentinesi_-_Appennino_Tosco_Emiliano_-_GT_01_-_2024_01_28.jpg
+  - 湖:"Llyn Ogwen Milky Way" by John Badham
+        https://commons.wikimedia.org/wiki/File:Llyn_Ogwen_Milky_Way.jpg
+-->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237b5ea7'/%3E%3Cpath d='M8 40 q8 -8 16 0 t16 0 t16 0' stroke='%23ffd9a0' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,72 +35,25 @@
   }
   .scene.on { opacity: 1; }
   .scene svg { position: absolute; width: 100%; }
+  .scene img.bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0; transition: opacity 1.4s ease;
+  }
+  .scene img.bg.loaded { opacity: 1; }
+  .scene::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(15,12,35,.40) 0%, rgba(15,12,35,.07) 34%, rgba(15,12,35,.05) 62%, rgba(10,8,28,.44) 100%);
+  }
 
   /* ---- 黄昏的海 ---- */
   .s-sea { background: linear-gradient(180deg, #20265c 0%, #6b5aa0 34%, #b96f95 56%, #ff9a8b 72%, #ffd3a5 88%); }
-  .s-sea .sun {
-    position: absolute; left: 50%; top: 63%;
-    width: 9vmin; height: 9vmin; margin-left: -4.5vmin; margin-top: -4.5vmin;
-    border-radius: 50%;
-    background: radial-gradient(circle, #fff2c9 0%, #ffcf87 55%, rgba(255,180,110,0) 78%);
-    box-shadow: 0 0 12vmin 4vmin rgba(255,170,110,.45);
-    animation: breathe 6s ease-in-out infinite;
-  }
-  .s-sea .lightpath {
-    position: absolute; left: 50%; top: 63%; bottom: 0;
-    width: 12vmin; transform: translateX(-50%);
-    background: linear-gradient(180deg, rgba(255,205,130,.5), rgba(255,205,130,.08) 80%);
-    filter: blur(6px);
-    mask-image: repeating-linear-gradient(180deg, #000 0 10px, rgba(0,0,0,.2) 10px 22px);
-    -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 10px, rgba(0,0,0,.2) 10px 22px);
-    animation: shimmer 7s linear infinite;
-  }
-  .s-sea .seahill { bottom: 0; }
-  .s-sea .waves { bottom: 0; }
-  .s-sea .wave { animation: drift 11s linear infinite; }
-  .s-sea .wave.w2 { animation-duration: 17s; animation-direction: reverse; opacity: .7; }
 
   /* ---- 晨雾的山 ---- */
   .s-mtn { background: linear-gradient(180deg, #dce7f2 0%, #e7e3ea 40%, #f2dfcd 74%, #f6e8d4 100%); }
-  .s-mtn .lowland { bottom: 0; }
-  .s-mtn .mist {
-    position: absolute; left: -10%; width: 120%; height: 14vh;
-    background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0));
-    filter: blur(2px);
-    animation: mistdrift 26s ease-in-out infinite alternate;
-  }
-  .s-mtn .mist.m1 { top: 52%; }
-  .s-mtn .mist.m2 { top: 66%; animation-duration: 34s; animation-direction: alternate-reverse; opacity: .8; }
-  .s-mtn .dawn {
-    position: absolute; right: 18%; top: 30%;
-    width: 26vmin; height: 26vmin; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,214,170,.85), rgba(255,214,170,0) 70%);
-  }
 
   /* ---- 星夜的湖 ---- */
   .s-lake { background: linear-gradient(180deg, #070d26 0%, #101c48 46%, #1c2f66 62%, #0d1738 63%, #0a1130 100%); }
-  .s-lake .moon {
-    position: absolute; right: 22%; top: 14%;
-    width: 8.5vmin; height: 8.5vmin; border-radius: 50%;
-    background: radial-gradient(circle at 38% 35%, #fffdf2 0%, #f4ead0 60%, #e8d9b4 100%);
-    box-shadow: 0 0 9vmin 2.5vmin rgba(244,234,208,.35);
-  }
-  .s-lake .moonglade {
-    position: absolute; right: 22%; top: 63%; bottom: 0;
-    width: 6.5vmin; transform: translateX(50%);
-    background: linear-gradient(180deg, rgba(248,240,214,.4), rgba(248,240,214,.12) 55%, rgba(248,240,214,0) 92%);
-    filter: blur(9px);
-    border-radius: 45%;
-    animation: glimmer 6s ease-in-out infinite alternate;
-  }
-  @keyframes glimmer { from { opacity: .5; } to { opacity: 1; } }
-  .s-lake .lakeline { top: 62.6%; height: 2px; background: rgba(190,205,255,.28); }
-  .s-lake .farside { bottom: 0; }
-  .star {
-    position: absolute; width: 2px; height: 2px; border-radius: 50%;
-    background: #fff; opacity: .7;
-    animation: twinkle 3.4s ease-in-out infinite;
-  }
   .firefly {
     position: absolute; width: 4px; height: 4px; border-radius: 50%;
     background: #ffe9a8; box-shadow: 0 0 8px 2px rgba(255,233,168,.6);
@@ -99,28 +61,7 @@
     animation: wander 9s ease-in-out infinite alternate;
   }
 
-  /* ---- 云与鸟 ---- */
-  .cloud {
-    position: absolute;
-    width: 22vmin; height: 6vmin;
-    background: rgba(255,255,255,.5);
-    border-radius: 6vmin;
-    filter: blur(1px);
-    animation: drift 60s linear infinite;
-  }
-  .cloud::before {
-    content: ""; position: absolute; left: 22%; top: -58%;
-    width: 55%; height: 130%;
-    background: inherit; border-radius: 50%;
-  }
-  .cloud::after {
-    content: ""; position: absolute; right: 18%; top: -36%;
-    width: 42%; height: 95%;
-    background: inherit; border-radius: 50%;
-  }
-  .s-sea .cloud { top: 20%; opacity: .8; }
-  .s-sea .cloud.c2 { top: 34%; left: 52%; animation-duration: 80s; opacity: .55; }
-  .s-mtn .cloud { top: 26%; background: rgba(255,255,255,.75); opacity: .85; }
+  /* ---- 鸟 ---- */
   .bird {
     position: absolute;
     animation: flyaway 26s linear infinite;
@@ -135,18 +76,20 @@
     align-items: center; justify-content: center;
     text-align: center;
     padding: 0 6vw 8vh;
-    text-shadow: 0 1px 14px rgba(20,15,45,.45);
+    text-shadow: 0 1px 16px rgba(15,12,38,.62), 0 0 7px rgba(15,12,38,.5);
     transition: text-shadow 1s ease;
   }
-  body[data-scene="mtn"] main { text-shadow: 0 1px 10px rgba(255,255,255,.4); }
-  h1 { transition: color 1s ease; }
-  body[data-scene="mtn"] h1 { color: #2e3a5c; }
-  .kicker, .divider, .quote, .lazy, .scene-label { transition: color 1s ease; }
-  body[data-scene="mtn"] .kicker   { color: #5b6b93; }
-  body[data-scene="mtn"] .divider  { color: #7a84a8; }
-  body[data-scene="mtn"] .quote    { color: #3d4a6b; }
-  body[data-scene="mtn"] .lazy     { color: #6b76a0; }
-  body[data-scene="mtn"] .scene-label { color: #5f6a94; }
+  /* 文字区暗色光晕垫底:压住照片亮部,保证可读 */
+  main::before {
+    content: ""; position: absolute; z-index: -1;
+    left: 50%; top: 50%;
+    width: min(92vw, 920px); height: min(84vh, 740px);
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse at center, rgba(10,8,30,.58) 0%, rgba(10,8,30,.34) 45%, rgba(10,8,30,0) 72%);
+    border-radius: 50%;
+    filter: blur(12px);
+    pointer-events: none;
+  }
   .kicker {
     font-size: clamp(12px, 1.6vmin, 15px);
     letter-spacing: .42em; text-indent: .42em;
@@ -199,14 +142,7 @@
     transition: background .5s, transform .35s, color 1s ease, border-color 1s ease;
     animation: rise 1.2s 1.45s ease both;
   }
-  body[data-scene="mtn"] #travel {
-    color: #2e3a5c;
-    background: rgba(255,255,255,.5);
-    border-color: rgba(46,58,92,.4);
-    text-shadow: none;
-  }
   #travel:hover { background: rgba(255,255,255,.24); transform: translateY(-2px); }
-  body[data-scene="mtn"] #travel:hover { background: rgba(255,255,255,.75); }
   #travel:active { transform: translateY(0); }
   .scene-label {
     margin-top: 2.2vmin;
@@ -225,7 +161,6 @@
     color: rgba(255,255,255,.55);
     transition: color 1s ease;
   }
-  body[data-scene="mtn"] footer { color: rgba(255,255,255,.8); }
   footer a { color: inherit; text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,.35); }
 
   /* 涟漪 */
@@ -239,11 +174,6 @@
 
   /* ============ 动画 ============ */
   @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-  @keyframes twinkle { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
-  @keyframes breathe { 0%,100% { transform: scale(1); opacity: .95; } 50% { transform: scale(1.06); opacity: .8; } }
-  @keyframes shimmer { from { mask-position: 0 0; } to { mask-position: 0 88px; } }
-  @keyframes drift { from { transform: translateX(-30vmin); } to { transform: translateX(110vw); } }
-  @keyframes mistdrift { from { transform: translateX(-4vw); } to { transform: translateX(4vw); } }
   @keyframes flyaway { from { transform: translateX(-12vw) translateY(0); } to { transform: translateX(105vw) translateY(-6vh); } }
   @keyframes wander {
     0% { transform: translate(0,0); opacity: .85; }
@@ -263,49 +193,23 @@
 
   <!-- 场景一:黄昏的海 -->
   <div class="scene s-sea on" id="scene-sea">
-    <div class="cloud"></div>
-    <div class="cloud c2"></div>
+    <img class="bg" src="assets/sea.jpg" alt="黄昏时分的海岸与灯塔">
     <svg class="bird" style="top:22%; left:0" width="46" height="16" viewBox="0 0 46 16" fill="none">
       <path d="M2 12 Q8 4 14 11 M14 11 Q20 3 27 10 M27 10 Q33 4 44 12" stroke="rgba(40,30,70,.55)" stroke-width="2" stroke-linecap="round"/>
     </svg>
     <svg class="bird" style="top:12%; left:0; animation-delay:-13s; transform:scale(.7)" width="46" height="16" viewBox="0 0 46 16" fill="none">
       <path d="M2 12 Q8 4 14 11 M14 11 Q20 3 27 10 M27 10 Q33 4 44 12" stroke="rgba(40,30,70,.45)" stroke-width="2" stroke-linecap="round"/>
     </svg>
-    <div class="sun"></div>
-    <div class="lightpath"></div>
-    <svg class="seahill" viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax slice" fill="none">
-      <path d="M0 90 Q180 60 320 88 Q470 116 640 84 Q760 62 900 92 Q1060 122 1220 88 Q1330 66 1440 86 L1440 220 L0 220 Z" fill="rgba(52,36,86,.55)"/>
-    </svg>
-    <svg class="waves" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax slice" fill="none">
-      <path class="wave" d="M-120 60 Q-90 50 -60 60 T0 60 T60 60 T120 60 T180 60 T240 60 T300 60 T360 60 T420 60 T480 60 T540 60 T600 60 T660 60 T720 60 T780 60 T840 60 T900 60 T960 60 T1020 60 T1080 60 T1140 60 T1200 60 T1260 60 T1320 60 T1380 60 T1440 60 T1500 60 T1560 60" stroke="rgba(255,220,170,.4)" stroke-width="2"/>
-      <path class="wave w2" d="M-120 130 Q-90 120 -60 130 T0 130 T60 130 T120 130 T180 130 T240 130 T300 130 T360 130 T420 130 T480 130 T540 130 T600 130 T660 130 T720 130 T780 130 T840 130 T900 130 T960 130 T1020 130 T1080 130 T1140 130 T1200 130 T1260 130 T1320 130 T1380 130 T1440 130 T1500 130 T1560 130" stroke="rgba(255,210,160,.28)" stroke-width="2"/>
-      <rect y="160" width="1440" height="100" fill="rgba(43,28,72,.55)"/>
-    </svg>
   </div>
 
   <!-- 场景二:晨雾的山 -->
   <div class="scene s-mtn" id="scene-mtn">
-    <div class="dawn"></div>
-    <div class="cloud"></div>
-    <svg class="lowland" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice" fill="none">
-      <path d="M0 360 L190 190 L330 320 L520 130 L700 300 L860 160 L1040 330 L1200 210 L1440 360 L1440 620 L0 620 Z" fill="rgba(148,168,196,.45)"/>
-      <path d="M0 470 L160 300 L360 450 L560 260 L780 440 L980 280 L1180 450 L1440 320 L1440 620 L0 620 Z" fill="rgba(118,142,178,.62)"/>
-      <path d="M0 560 L200 400 L420 540 L640 360 L880 520 L1100 380 L1320 540 L1440 460 L1440 620 L0 620 Z" fill="rgba(88,116,158,.85)"/>
-      <rect y="545" width="1440" height="75" fill="rgba(70,98,142,.9)"/>
-    </svg>
-    <div class="mist m1"></div>
-    <div class="mist m2"></div>
+    <img class="bg" src="assets/mtn.jpg" alt="晨雾中的层叠群山">
   </div>
 
   <!-- 场景三:星夜的湖 -->
   <div class="scene s-lake" id="scene-lake">
-    <div id="stars"></div>
-    <div class="moon"></div>
-    <svg class="farside" viewBox="0 0 1440 380" preserveAspectRatio="xMidYMax slice" fill="none">
-      <path d="M0 150 L140 60 L260 140 L420 40 L600 150 L760 70 L940 160 L1120 80 L1300 150 L1440 100 L1440 380 L0 380 Z" fill="rgba(9,14,36,.92)"/>
-    </svg>
-    <div class="lakeline" style="position:absolute; left:0; right:0"></div>
-    <div class="moonglade"></div>
+    <img class="bg" src="assets/lake.jpg" alt="银河下的湖">
     <div class="firefly" style="left:20%; top:74%"></div>
     <div class="firefly" style="left:38%; top:82%; animation-delay:-3s"></div>
     <div class="firefly" style="left:64%; top:78%; animation-delay:-6s"></div>
@@ -365,20 +269,16 @@
     setTimeout(function () { r.remove(); }, 950);
   });
 
-  // 星夜的星星
-  var starBox = document.getElementById("stars");
-  for (var i = 0; i < 90; i++) {
-    var s = document.createElement("div");
-    s.className = "star";
-    var x = Math.random() * 100;
-    var y = Math.random() * 60;
-    var sc = 0.6 + Math.random() * 1.6;
-    s.style.left = x + "%";
-    s.style.top = y + "%";
-    s.style.transform = "scale(" + sc + ")";
-    s.style.animationDelay = (Math.random() * 3.4).toFixed(2) + "s";
-    if (Math.random() > 0.85) { s.style.width = "3px"; s.style.height = "3px"; }
-    starBox.appendChild(s);
+  // 背景图加载完成后淡入(加载前显示 CSS 渐变兜底)
+  var bgs = document.querySelectorAll("img.bg");
+  for (var i = 0; i < bgs.length; i++) {
+    (function (img) {
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.add("loaded");
+      } else {
+        img.addEventListener("load", function () { img.classList.add("loaded"); });
+      }
+    })(bgs[i]);
   }
 })();
 </script>
