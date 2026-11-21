@@ -6,13 +6,17 @@
 <title>vlovem · 山川湖海</title>
 <meta name="description" content="一个懒懒的小角落:喜欢山川湖海,遨游四海。">
 <!--
-  背景照片均来自 Wikimedia Commons,CC BY-SA 4.0(免费商用,须署名):
-  - 海:"Rubjerg Knude Fyr, Hjorring, Denmark, 1807072231, ako" by Ansgar Koreng
-        https://commons.wikimedia.org/wiki/File:Rubjerg_Knude_Fyr,_Hj%C3%B8rring,_Denmark,_1807072231,_ako.jpg
-  - 山:"Nebbia su colli e monti - Foreste Casentinesi - Appennino Tosco Emiliano - GT 01 - 2024 01 28" by Terragio67
-        https://commons.wikimedia.org/wiki/File:Nebbia_su_colli_e_monti_-_Foreste_Casentinesi_-_Appennino_Tosco_Emiliano_-_GT_01_-_2024_01_28.jpg
-  - 湖:"Llyn Ogwen Milky Way" by John Badham
-        https://commons.wikimedia.org/wiki/File:Llyn_Ogwen_Milky_Way.jpg
+  背景照片均来自 Wikimedia Commons(CC BY-SA / CC BY,免费商用,须署名),完整署名见 README.md:
+  1 海  Rubjerg Knude Fyr — Ansgar Koreng (CC BY-SA 4.0)
+  2 山  Nebbia su colli e monti (Appennino) — Terragio67 (CC BY-SA 4.0)
+  3 日出  Babia Góra — Jakub Hałun (CC BY-SA 4.0)
+  4 秋谷  NNP Synevyr — Rbrechko (CC BY-SA 4.0)
+  5 海浪  Waves at La Corniche — Christian Ferrer (CC BY 4.0)
+  6 日落  A peaceful sunset evening — yrjö jyske (CC BY 4.0)
+  7 蓝调  Glow of sunset on the Waskesiu Lake — Viktor Birkus (CC BY-SA 4.0)
+  8 银河湖  Llyn Ogwen Milky Way — John Badham (CC BY-SA 4.0)
+  9 极光  Northern lights over Mývatn (Iceland) — Giles Laurent (CC BY-SA 4.0)
+  10 星空人影  Human looking at the stars during Perseids — Giles Laurent (CC BY-SA 4.0)
 -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237b5ea7'/%3E%3Cpath d='M8 40 q8 -8 16 0 t16 0 t16 0' stroke='%23ffd9a0' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
@@ -54,6 +58,15 @@
 
   /* ---- 星夜的湖 ---- */
   .s-lake { background: linear-gradient(180deg, #070d26 0%, #101c48 46%, #1c2f66 62%, #0d1738 63%, #0a1130 100%); }
+
+  /* ---- 其余场景的加载兜底渐变(色调贴近各自照片) ---- */
+  .s-dawn   { background: linear-gradient(180deg, #26314e 0%, #c98d5e 48%, #efc894 72%, #6b7ba0 100%); }
+  .s-autumn { background: linear-gradient(180deg, #9fb7d6 0%, #e7cf9e 40%, #c98d5e 66%, #7a8a5a 100%); }
+  .s-waves  { background: linear-gradient(180deg, #4a5a8a 0%, #b97a6a 42%, #d8a06a 58%, #3a4a6e 100%); }
+  .s-sunset { background: linear-gradient(180deg, #1c2a4a 0%, #8a4a3a 42%, #d98a4a 62%, #14203a 100%); }
+  .s-dusk   { background: linear-gradient(180deg, #0e1a3a 0%, #1e3a6a 44%, #b96a3a 64%, #0a1430 100%); }
+  .s-aurora { background: linear-gradient(180deg, #04101e 0%, #0e2a3e 46%, #1e5a52 68%, #0a1826 100%); }
+  .s-star   { background: linear-gradient(180deg, #050e18 0%, #10202e 48%, #1a3020 70%, #060d14 100%); }
   .firefly {
     position: absolute; width: 4px; height: 4px; border-radius: 50%;
     background: #ffe9a8; box-shadow: 0 0 8px 2px rgba(255,233,168,.6);
@@ -193,7 +206,7 @@
 
   <!-- 场景一:黄昏的海 -->
   <div class="scene s-sea on" id="scene-sea">
-    <img class="bg" src="assets/sea.jpg" alt="黄昏时分的海岸与灯塔">
+    <img class="bg" data-src="assets/sea.jpg" alt="黄昏时分的海岸与灯塔">
     <svg class="bird" style="top:22%; left:0" width="46" height="16" viewBox="0 0 46 16" fill="none">
       <path d="M2 12 Q8 4 14 11 M14 11 Q20 3 27 10 M27 10 Q33 4 44 12" stroke="rgba(40,30,70,.55)" stroke-width="2" stroke-linecap="round"/>
     </svg>
@@ -204,16 +217,51 @@
 
   <!-- 场景二:晨雾的山 -->
   <div class="scene s-mtn" id="scene-mtn">
-    <img class="bg" src="assets/mtn.jpg" alt="晨雾中的层叠群山">
+    <img class="bg" data-src="assets/mtn.jpg" alt="晨雾中的层叠群山">
   </div>
 
-  <!-- 场景三:星夜的湖 -->
+  <!-- 场景三:云海上的日出 -->
+  <div class="scene s-dawn" id="scene-dawn">
+    <img class="bg" data-src="assets/dawn.jpg" alt="云海上的雪山日出">
+  </div>
+
+  <!-- 场景四:秋天的山谷 -->
+  <div class="scene s-autumn" id="scene-autumn">
+    <img class="bg" data-src="assets/autumn.jpg" alt="秋日晨雾中的山谷">
+  </div>
+
+  <!-- 场景五:起风的海浪 -->
+  <div class="scene s-waves" id="scene-waves">
+    <img class="bg" data-src="assets/waves.jpg" alt="海浪拍打礁石">
+  </div>
+
+  <!-- 场景六:湖上的日落 -->
+  <div class="scene s-sunset" id="scene-sunset">
+    <img class="bg" data-src="assets/sunset.jpg" alt="湖上的日落">
+  </div>
+
+  <!-- 场景七:蓝调时刻 -->
+  <div class="scene s-dusk" id="scene-dusk">
+    <img class="bg" data-src="assets/dusk.jpg" alt="蓝调时分的湖畔">
+  </div>
+
+  <!-- 场景八:装满星星的湖 -->
   <div class="scene s-lake" id="scene-lake">
-    <img class="bg" src="assets/lake.jpg" alt="银河下的湖">
+    <img class="bg" data-src="assets/lake.jpg" alt="银河下的湖">
     <div class="firefly" style="left:20%; top:74%"></div>
     <div class="firefly" style="left:38%; top:82%; animation-delay:-3s"></div>
     <div class="firefly" style="left:64%; top:78%; animation-delay:-6s"></div>
     <div class="firefly" style="left:80%; top:86%; animation-delay:-8s"></div>
+  </div>
+
+  <!-- 场景九:极光之下 -->
+  <div class="scene s-aurora" id="scene-aurora">
+    <img class="bg" data-src="assets/aurora.jpg" alt="极光下的冰湖">
+  </div>
+
+  <!-- 场景十:仰望星空的人 -->
+  <div class="scene s-star" id="scene-star">
+    <img class="bg" data-src="assets/star.jpg" alt="银河下仰望星空的人">
   </div>
 
   <!-- 内容 -->
@@ -233,14 +281,36 @@
 
 <script>
 (function () {
-  var order = ["sea", "mtn", "lake"];
-  var labels = { sea: "此刻 · 黄昏的海", mtn: "此刻 · 晨雾里的山", lake: "此刻 · 装满星星的湖" };
-  var idx = 0, switching = false;
+  var order = ["sea", "mtn", "dawn", "autumn", "waves", "sunset", "dusk", "lake", "aurora", "star"];
+  var labels = {
+    sea: "此刻 · 黄昏的海",
+    mtn: "此刻 · 晨雾里的山",
+    dawn: "此刻 · 云海上的日出",
+    autumn: "此刻 · 秋天的山谷",
+    waves: "此刻 · 起风的海浪",
+    sunset: "此刻 · 湖上的日落",
+    dusk: "此刻 · 蓝调时刻",
+    lake: "此刻 · 装满星星的湖",
+    aurora: "此刻 · 极光之下",
+    star: "此刻 · 仰望星空的人"
+  };
+  var idx = 0;
 
   var btn = document.getElementById("travel");
   var label = document.getElementById("sceneLabel");
 
+  // 场景背景图惰性加载:首次切换到该场景时才开始下载,加载完成后淡入
+  function loadSceneImg(name) {
+    var img = document.querySelector("#scene-" + name + " img.bg");
+    if (!img || img.dataset.loaded) return;
+    img.dataset.loaded = "1";
+    img.classList.remove("loaded");
+    img.addEventListener("load", function () { img.classList.add("loaded"); });
+    img.src = img.dataset.src;
+  }
+
   function show(i) {
+    loadSceneImg(order[i]);
     order.forEach(function (name, j) {
       document.getElementById("scene-" + name).classList.toggle("on", j === i);
     });
@@ -269,17 +339,8 @@
     setTimeout(function () { r.remove(); }, 950);
   });
 
-  // 背景图加载完成后淡入(加载前显示 CSS 渐变兜底)
-  var bgs = document.querySelectorAll("img.bg");
-  for (var i = 0; i < bgs.length; i++) {
-    (function (img) {
-      if (img.complete && img.naturalWidth > 0) {
-        img.classList.add("loaded");
-      } else {
-        img.addEventListener("load", function () { img.classList.add("loaded"); });
-      }
-    })(bgs[i]);
-  }
+  // 首屏场景立即加载
+  loadSceneImg(order[0]);
 })();
 </script>
 </body>
